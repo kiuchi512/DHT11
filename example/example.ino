@@ -1,9 +1,10 @@
 #include "DHT11.h"
 #include "Arduino.h"
 
-int temp,humid;
+float temp,humid;
+uint8_t pin = 2;
 
-dht11 sensor = dht11(2);
+dht11 sensor = dht11(pin);
 
 void setup() {
   // put your setup code here, to run once:
@@ -13,10 +14,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  temp = sensor.readTemperature();
-  humid = sensor.readHumidity();
+  dht11::dht11_reading data = sensor.measureData();
+  temp = data.temp1;
+  humid = data.humid1;
 
+  Serial.print("temperature: ");
   Serial.println(temp);
+  Serial.print("humidity: ");
   Serial.println(humid);
 
   delay(2000);
